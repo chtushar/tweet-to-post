@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { styled } from 'stitches';
 
 export const StyledPage = styled('div', {
@@ -12,4 +13,9 @@ export const Nav = styled('nav', {
   flexDirection: 'row',
   justifyContent: 'flex-end',
   alignItems: 'center',
+  gap: '$3',
+});
+
+export const Avatar = styled(Image, {
+  borderRadius: '9999px',
 });

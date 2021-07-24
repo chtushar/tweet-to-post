@@ -10,7 +10,9 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [additionalUserInfo, setAdditionalUserInfo] = useState(null);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const [credential, setCredential] = useState({});
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
@@ -26,7 +28,9 @@ export const AuthProvider = ({ children }) => {
       .auth()
       .signInWithPopup(TWITTER_PROVIDER)
       .then((result) => {
+        setCredential(result.credential);
         setUser(result.user);
+        setAdditionalUserInfo(result.additionalUserInfo);
       })
       .catch((error) => {
         console.error({ code: error.code, message: error.message });
@@ -44,6 +48,8 @@ export const AuthProvider = ({ children }) => {
 
   const values = {
     user,
+    additionalUserInfo,
+    credential,
     isAuthenticating,
     signIn,
     signOut,

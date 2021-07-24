@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
-import { StyledPage, Nav } from '../UI/common';
+import { StyledPage, Nav, Avatar } from '../UI/common';
 import Button from '../UI/Button';
 import { useAuth } from 'auth/useAuth';
 
 const PrivatePage = ({ children, ...props }) => {
   const router = useRouter();
-  const { user } = useAuth();
-
+  const { user, signOut, additionalUserInfo } = useAuth();
+  console.log(additionalUserInfo);
   if (!user) {
     router.replace('/');
   }
@@ -15,7 +15,16 @@ const PrivatePage = ({ children, ...props }) => {
       {!!user && (
         <>
           <Nav>
-            <Button signOut>Sign Out</Button>
+            <Avatar
+              width='40px'
+              height='40px'
+              alt='displayImage'
+              src={user.photoURL}
+            />
+            <p>{additionalUserInfo.username}</p>
+            <Button onClick={signOut} signOut>
+              Sign Out
+            </Button>
           </Nav>
           {children}{' '}
         </>
