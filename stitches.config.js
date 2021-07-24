@@ -1,10 +1,11 @@
 import { createCss } from '@stitches/react';
-import { gray } from '@radix-ui/colors';
+import { gray, red } from '@radix-ui/colors';
 
 export const { styled, css, getCssString } = createCss({
   theme: {
     colors: {
       ...gray,
+      ...red,
       twitterBlue: '#1DA1F2',
     },
     space: {
@@ -26,6 +27,10 @@ export const { styled, css, getCssString } = createCss({
       4: '24px',
       5: '28px',
       6: '32px',
+      7: '36px',
+      8: '40px',
+      9: '44px',
+      10: '48px',
     },
     fonts: {
       primary: `-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,

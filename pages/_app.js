@@ -4,6 +4,15 @@ import { normalize } from 'normalize-stitches';
 
 const globalStyles = global({
   ...normalize,
+  html: {
+    fontFamily: '$primary',
+    minHeight: '100vh',
+    height: '100%',
+  },
+  body: {
+    minHeight: '100%',
+    margin: '0',
+  },
 });
 
 function MyApp({ Component, pageProps }) {
