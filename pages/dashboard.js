@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import { styled } from 'stitches';
 import { useAuth } from 'auth/useAuth';
@@ -11,7 +12,10 @@ const H2 = styled('h2', {
 const Dashboard = () => {
   const { additionalUserInfo } = useAuth();
   const { twitterRequest } = useAxios();
-  twitterRequest.getHomeTweets(additionalUserInfo.username);
+
+  useEffect(() => {
+    twitterRequest.getHomeTweets(additionalUserInfo.username);
+  }, []);
 
   return (
     <PrivatePage>

@@ -66,19 +66,24 @@ export const AxiosProvider = ({ children }) => {
   const request = axios.create();
 
   const getHomeTweets = async (screenName) => {
-    const { data } = await twitterRequestAxiosInstance.get(
-      '/statuses/home_timeline.json',
-      {
-        headers: {
-          Authorization: getAuthorizationString(
-            'GET',
-            'https://api.twitter.com/1.1/statuses/home_timeline.json',
-            { screen_name: screenName },
-          ),
+    try {
+      const { data } = await twitterRequestAxiosInstance.get(
+        '/statuses/home_timeline.json',
+        {
+          headers: {
+            Authorization: getAuthorizationString(
+              'GET',
+              'https://api.twitter.com/1.1/statuses/home_timeline.json',
+              { screen_name: screenName },
+            ),
+          },
         },
-      },
-    );
-    return data;
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
   };
 
   const values = {
