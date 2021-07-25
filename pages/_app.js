@@ -1,7 +1,9 @@
 import { AuthProvider } from '../auth/useAuth';
-import { AxiosProvider } from '../context/Axios';
 import { global } from '@stitches/react';
 import { normalize } from 'normalize-stitches';
+import initAuth from '../utils/initAuth'; // the module you created above
+
+initAuth();
 
 const globalStyles = global({
   ...normalize,
@@ -20,9 +22,7 @@ function MyApp({ Component, pageProps }) {
   globalStyles();
   return (
     <AuthProvider>
-      <AxiosProvider>
-        <Component {...pageProps} />
-      </AxiosProvider>
+      <Component {...pageProps} />
     </AuthProvider>
   );
 }

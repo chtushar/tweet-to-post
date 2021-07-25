@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import Head from 'next/head';
 import { styled } from 'stitches';
 import { useAuth } from 'auth/useAuth';
-import { useAxios } from '../context/Axios';
 import { PrivatePage } from '../components/shared';
 
 const H2 = styled('h2', {
@@ -10,13 +9,6 @@ const H2 = styled('h2', {
 });
 
 const Dashboard = () => {
-  const { additionalUserInfo } = useAuth();
-  const { twitterRequest } = useAxios();
-
-  useEffect(() => {
-    twitterRequest.getHomeTweets(additionalUserInfo.username);
-  }, []);
-
   return (
     <PrivatePage>
       <Head>
@@ -25,14 +17,6 @@ const Dashboard = () => {
       <H2>Recent tweets</H2>
     </PrivatePage>
   );
-};
-
-export const getStaticProps = (context) => {
-  return {
-    props: {
-      message: 'ok',
-    },
-  };
 };
 
 export default Dashboard;

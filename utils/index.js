@@ -84,3 +84,53 @@ export const oAuthSignature = (base_string, signing_key) => {
   const signature = hmac_sha1(base_string, signing_key);
   return percentEncode(signature);
 };
+
+export const getAuthorizationString = (
+  httpMethod,
+  baseUrl,
+  reqParams,
+  accessToken,
+  accessTokenSecret,
+) => {
+  const consumerKey = process.env.NEXT_PUBLIC_TWITTER_API_KEY;
+  const consumerSecret = process.env.NEXT_PUBLIC_TWITTER_API_SECRET;
+
+  // timestamp as unix epoch
+  let timestamp = Math.round(Date.now() / 1000);
+  // nonce as base64 encoded unique random string
+  let nonce = btoa(consumerKey + ':' + timestamp);
+
+  let baseString = oAuthBaseString(
+    httpMethod,
+    baseUrl,
+    reqParams,
+    consumerKey,
+    accessToken,
+    timestamp,
+    nonce,
+  );
+
+  let signingKey = oAuthSigningKey(consumerSecret, accessTokenSecret);
+  let signature = oAuthSignature(baseString, signingKey);
+
+  return (
+    'OAuth ' +
+    'oauth_consumer_key="' +
+    consumerKey +
+    '", ' +
+    'oauth_nonce="' +
+    nonce +
+    '", ' +
+    'oauth_signature="' +
+    signature +
+    '", ' +
+    'oauth_signature_method="HMAC-SHA1", ' +
+    'oauth_timestamp="' +
+    timestamp +
+    '", ' +
+    'oauth_token="' +
+    accessToken +
+    '", ' +
+    'oauth_version="1.0"'
+  );
+};

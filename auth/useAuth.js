@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
-import firebase from '../firebase/clientApp';
+import firebase from 'firebase';
 
 const AuthContext = createContext();
 const TWITTER_PROVIDER = new firebase.auth.TwitterAuthProvider();
