@@ -1,4 +1,5 @@
 import { AuthProvider } from '../auth/useAuth';
+import { AxiosProvider } from '../context/Axios';
 import { global } from '@stitches/react';
 import { normalize } from 'normalize-stitches';
 
@@ -19,7 +20,9 @@ function MyApp({ Component, pageProps }) {
   globalStyles();
   return (
     <AuthProvider>
-      <Component {...pageProps} />
+      <AxiosProvider>
+        <Component {...pageProps} />
+      </AxiosProvider>
     </AuthProvider>
   );
 }

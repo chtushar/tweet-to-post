@@ -5,8 +5,8 @@ import { useAuth } from 'auth/useAuth';
 
 const PrivatePage = ({ children, ...props }) => {
   const router = useRouter();
-  const { user, signOut, additionalUserInfo } = useAuth();
-  console.log(additionalUserInfo);
+  const { user, signOut, additionalUserInfo, credential } = useAuth();
+  console.log(credential);
   if (!user) {
     router.replace('/');
   }
@@ -21,7 +21,7 @@ const PrivatePage = ({ children, ...props }) => {
               alt='displayImage'
               src={user.photoURL}
             />
-            <p>{additionalUserInfo.username}</p>
+            {!!additionalUserInfo && <p>{additionalUserInfo.username}</p>}
             <Button onClick={signOut} signOut>
               Sign Out
             </Button>
