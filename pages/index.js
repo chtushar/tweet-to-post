@@ -1,5 +1,9 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import {
+  withAuthUser,
+  withAuthUserTokenSSR,
+  AuthAction,
+} from 'next-firebase-auth';
 import { Page } from '../components/shared';
 import { useAuth } from '../auth/useAuth';
 import TwitterLogo from 'components/svg/TwitterLogo';
@@ -22,12 +26,7 @@ const Main = styled('main', {
 });
 
 const Home = () => {
-  const router = useRouter();
-  const { signIn, signOut, user } = useAuth();
-
-  if (!!user) {
-    router.push('/dashboard');
-  }
+  const { signIn } = useAuth();
 
   return (
     <Page>
@@ -36,20 +35,20 @@ const Home = () => {
       </Head>
 
       <Main>
-        {!user && (
-          <>
-            <h1>
-              Turn your Tweets <br /> into shareable images
-            </h1>
-            <Button onClick={signIn} twitter>
-              <TwitterLogo />
-              Sign in with Twitter
-            </Button>
-          </>
-        )}
+        <h1>
+          Turn your Tweets <br /> into shareable images
+        </h1>
+        <Button onClick={signIn} twitter>
+          <TwitterLogo />
+          Sign in with Twitter
+        </Button>
       </Main>
     </Page>
   );
 };
 
-export default Home;
+export const getServerSideProps = withAuthUserTokenSSR({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+})();
+
+export default withAuthUser({ whenAuthed: AuthAction.REDIRECT_TO_APP })(Home);

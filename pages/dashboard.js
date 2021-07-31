@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
 import { styled } from 'stitches';
-import { useAuth } from 'auth/useAuth';
+import {
+  useAuthUser,
+  withAuthUser,
+  withAuthUserTokenSSR,
+  AuthAction,
+} from 'next-firebase-auth';
 import { PrivatePage } from '../components/shared';
 
 const H2 = styled('h2', {
@@ -19,4 +24,14 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export const getServerSideProps = withAuthUserTokenSSR({
+  whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
+})(async ({ AuthUser, req }) => {
+  return {
+    props: {},
+  };
+});
+
+export default withAuthUser({
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+})(Dashboard);
